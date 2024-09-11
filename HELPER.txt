@@ -1,0 +1,31 @@
+from django.db import reset_queries, connection
+from django.db.models import Q
+len(connection.queries)
+reset_queries()
+
+
+* количество сотрудников с должностью “Менеджер”
+    Employee.objects.filter(job="Менеджер").count()
+    запрос не выдан т.к. результат int
+
+* список сотрудников, работающих на четвертых этажах
+    Employee.objects.filter(department__stage=4).all()
+    SELECT "company_employee"."id", "company_employee"."fio", "company_employee"."job", "company_employee"."phone", "company_employee"."burn", "company_employee"."email", "company_employee"."department_id" FROM "company_employee" INNER JOIN "company_department" ON ("company_employee"."department_id" = "company_department"."id") WHERE "company_department"."stage" = 4
+
+* по известным двум ID филиала получить их сотрудников (с помощью Q и с лукапом проверки вхождения ID в список)
+    v = Office.objects.all()[:2]
+
+    Office.objects.filter(Q(id=v[0].id) | Q(id=v[1].id))
+    SELECT "company_office"."id", "company_office"."short_name", "company_office"."address" FROM "company_office" WHERE "company_office"."id" IN (1, 2)
+
+    Office.objects.filter(id__in=[v[0].id, v[1].id])
+    SELECT "company_office"."id", "company_office"."short_name", "company_office"."address" FROM "company_office" WHERE ("company_office"."id" = 1 OR "company_office"."id" = 500)
+
+    
+* список ФИО сотрудников, у которых не указан email
+    Employee.objects.filter(email__isnull=True).all()
+    SELECT "company_employee"."id", "company_employee"."fio", "company_employee"."job", "company_employee"."phone", "company_employee"."burn", "company_employee"."email", "company_employee"."department_id" FROM "company_employee" WHERE "company_employee"."email" IS NULL
+    
+* список сотрудников, чей год рождения 1990
+    Employee.objects.filter(burn__year=1990).all()
+    SELECT "company_employee"."id", "company_employee"."fio", "company_employee"."job", "company_employee"."phone", "company_employee"."burn", "company_employee"."email", "company_employee"."department_id" FROM "company_employee" WHERE "company_employee"."burn" BETWEEN 1990-01-01 AND 1990-12-31    
