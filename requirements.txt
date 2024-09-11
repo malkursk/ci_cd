@@ -6,16 +6,26 @@
 #
 asgiref==3.8.1
     # via django
+astroid==3.2.4
+    # via pylint
 asttokens==2.4.1
     # via stack-data
+build==1.2.2
+    # via pip-tools
 certifi==2024.8.30
     # via requests
 cffi==1.17.1
     # via cryptography
 charset-normalizer==3.3.2
     # via requests
+click==8.1.7
+    # via pip-tools
 colorama==0.4.6
-    # via ipython
+    # via
+    #   build
+    #   click
+    #   ipython
+    #   pylint
 cryptography==43.0.1
     # via social-auth-core
 decorator==5.1.1
@@ -24,6 +34,8 @@ defusedxml==0.8.0rc2
     # via
     #   python3-openid
     #   social-auth-core
+dill==0.3.8
+    # via pylint
 django==5.1.1
     # via
     #   -r requirements.in
@@ -39,16 +51,26 @@ idna==3.8
     # via requests
 ipython==8.27.0
     # via -r requirements.in
+isort==5.13.2
+    # via pylint
 jedi==0.19.1
     # via ipython
 matplotlib-inline==0.1.7
     # via ipython
+mccabe==0.7.0
+    # via pylint
 oauthlib==3.2.2
     # via
     #   requests-oauthlib
     #   social-auth-core
+packaging==24.1
+    # via build
 parso==0.8.4
     # via jedi
+pip-tools==7.4.1
+    # via -r requirements.in
+platformdirs==4.3.2
+    # via pylint
 prompt-toolkit==3.0.47
     # via ipython
 psycopg2==2.9.9
@@ -61,6 +83,12 @@ pygments==2.18.0
     # via ipython
 pyjwt==2.9.0
     # via social-auth-core
+pylint==3.2.7
+    # via -r requirements.in
+pyproject-hooks==1.1.0
+    # via
+    #   build
+    #   pip-tools
 python-dateutil==2.9.0.post0
     # via faker
 python3-openid==3.2.0
@@ -71,6 +99,8 @@ requests==2.32.3
     #   social-auth-core
 requests-oauthlib==2.0.0
     # via social-auth-core
+ruff==0.6.4
+    # via -r requirements.in
 six==1.16.0
     # via
     #   asttokens
@@ -83,6 +113,8 @@ sqlparse==0.5.1
     # via django
 stack-data==0.6.3
     # via ipython
+tomlkit==0.13.2
+    # via pylint
 toposort==1.10
     # via django-seed
 traitlets==5.14.3
@@ -95,3 +127,9 @@ urllib3==2.2.2
     # via requests
 wcwidth==0.2.13
     # via prompt-toolkit
+wheel==0.44.0
+    # via pip-tools
+
+# The following packages are considered to be unsafe in a requirements file:
+# pip
+# setuptools

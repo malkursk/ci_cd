@@ -1,3 +1,78 @@
+### РАБОТА С БД
+
+database:
+ python .\manage.py makemigrations company --dry-run (preview)
+ python .\manage.py makemigrations company
+ python manage.py sqlmigrate company 0001
+ python manage.py migrate company 
+
+seeders:
+ python manage.py seed company --number=50
+
+```
+    python manage.py shell
+
+    from company.models import *
+
+    v = Employee()
+    v.fio = "Петров Семен Семенович"
+    v.job = "Архитектор"
+    v.save()
+    v.pk
+
+    v = Employee.objects.get(pk=1)
+    v.fio = "Новое Имя"
+    v.department
+    v.save()
+    v.delete()
+   
+    try: 
+        v = Employee.objects.get(job='Сантехник2')
+    except Employee.DoesNotExist as e:
+        print(e)
+
+    v = Employee(fio="Иванов Иван Петрович",job="Сантехник")
+    v.save()    
+
+    v = Employee.objects.create(fio="Иванов Иван Петрович",job="Сантехник")
+
+    for e in Employee.objects.filter(department__gte=2).all():
+        print(e.pk, e.fio)
+
+    v = Employee.objects.get(pk=2)
+    v.department.name
+```
+
+### С помощью django_seed
+```
+    from django.db import connection
+    from django_seed import Seed
+
+    office_count = 3
+    departmens_per_office = 4
+    employees_per_department = 7
+
+    seeder = Seed.seeder()
+    seeder.add_entity(Office, office_count)
+
+    for i in range(office_count):    
+        seeder.add_entity(Department, departmens_per_office, {
+            'office_id': i+1
+        })
+
+    for i in range(office_count*departmens_per_office):
+        seeder.add_entity(Employee, employees_per_department, {
+            'department_id': i+1
+        })
+
+    seeder.execute()
+
+    Offices.objects.filter(id__gt=3).delete()       оставляем три филиала
+    Department.objects.filter(age__isnull=True).delete()   убираем отделы без филиалов
+    Employee.objects.update(job='Менеджер')
+```    
+
+
 from django.db import reset_queries, connection
 from django.db.models import Q
 len(connection.queries)

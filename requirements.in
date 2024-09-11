@@ -3,3 +3,6 @@ ipython
 django-seed
 psycopg2
 social-auth-app-django
+pylint
+pip-tools
+ruff
